@@ -19,11 +19,11 @@
 ### Milestone 2: 核心API开发 (Day 3-10)
 | 任务ID | 任务 | 负责人 | 状态 |
 |--------|------|--------|:----:|
-| DEV-101 | Figures API (列表/筛选) | Backend | ⏳ |
-| DEV-102 | Figures API (详情) | Backend | ⏳ |
-| DEV-103 | News API | Backend | ⏳ |
-| DEV-104 | Manufacturers/Brands API | Backend | ⏳ |
-| DEV-105 | 用户认证 API | Backend | ⏳ |
+| DEV-101 | Figures API (列表/筛选) | Backend | ✅ |
+| DEV-102 | Figures API (详情) | Backend | ✅ |
+| DEV-103 | News API | Backend | ✅ |
+| DEV-104 | Manufacturers/Brands API | Backend | ✅ |
+| DEV-105 | 用户认证 API | Backend | ✅ |
 
 ### Milestone 3: 爬虫开发 (Day 5-12)
 | 任务ID | 任务 | 负责人 | 状态 |
@@ -47,9 +47,9 @@
 ### Milestone 5: 用户功能 (Day 15-22)
 | 任务ID | 任务 | 负责人 | 状态 |
 |--------|------|--------|:----:|
-| DEV-401 | 用户注册/登录 | Backend | ⏳ |
-| DEV-402 | 收藏功能 | Backend+Frontend | ⏳ |
-| DEV-403 | 订阅功能 | Backend+Frontend | ⏳ |
+| DEV-401 | 用户注册/登录 | Backend | ✅ |
+| DEV-402 | 收藏功能 | Backend+Frontend | 🔥 |
+| DEV-403 | 订阅功能 | Backend+Frontend | 🔥 |
 
 ### Milestone 6: 测试与部署 (Day 23-28)
 | 任务ID | 任务 | 负责人 | 状态 |
