@@ -1,0 +1,149 @@
+// Prisma Schema for Figure Collector
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 手办模型
+model Figure {
+  id          Int      @id @default(autoincrement())
+  name        String
+  name_en     String?
+  name_jp     String?
+  thumbnail   String
+  images      String[]
+  price       Float
+  price_jpy   Float?
+  currency    String   @default("CNY")
+  status      String   @default("announced") // announced, pre_order, available, sold_out
+  description String?
+  accessories String[]
+  height      String?
+  series      String?
+  character   String?
+  release_date DateTime
+  
+  manufacturer_id Int
+  manufacturer    Manufacturer @relation(fields: [manufacturer_id], references: [id])
+  
+  brand_id Int?
+  brand    Brand?   @relation(fields: [brand_id], references: [id])
+  
+  news      News[]
+  favorites Favorite[]
+  
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([manufacturer_id])
+  @@index([brand_id])
+  @@index([status])
+  @@index([release_date])
+}
+
+// 厂商模型
+model Manufacturer {
+  id          Int      @id @default(autoincrement())
+  name        String
+  name_en     String?
+  logo        String?
+  website     String?
+  description String?
+  
+  figures     Figure[]
+  brands      Brand[]
+  subscriptions Subscription[]
+  
+  created_at  DateTime @default(now())
+
+  @@index([name])
+}
+
+// 品牌模型
+model Brand {
+  id              Int      @id @default(autoincrement())
+  name            String
+  manufacturer_id Int
+  manufacturer    Manufacturer @relation(fields: [manufacturer_id], references: [id])
+  description     String?
+  
+  figures         Figure[]
+  subscriptions   Subscription[]
+  
+  created_at      DateTime @default(now())
+
+  @@index([manufacturer_id])
+  @@index([name])
+}
+
+// 情报模型
+model News {
+  id           Int      @id @default(autoincrement())
+  type         String   // announcement, pre_order, release, image_update, price_change
+  title        String
+  content      String?
+  source       String   // hpoi, gsc, official
+  source_url   String?
+  figure_id    Int?
+  figure       Figure?  @relation(fields: [figure_id], references: [id])
+  published_at DateTime
+  created_at   DateTime @default(now())
+
+  @@index([type])
+  @@index([source])
+  @@index([figure_id])
+  @@index([published_at])
+}
+
+// 用户模型
+model User {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  email         String   @unique
+  password_hash String
+  avatar        String?
+  
+  favorites     Favorite[]
+  subscriptions Subscription[]
+  
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@index([username])
+  @@index([email])
+}
+
+// 收藏模型
+model Favorite {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  figure_id  Int
+  figure     Figure   @relation(fields: [figure_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+
+  @@unique([user_id, figure_id])
+  @@index([user_id])
+  @@index([figure_id])
+}
+
+// 订阅模型
+model Subscription {
+  id              Int      @id @default(autoincrement())
+  user_id         Int
+  user            User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  manufacturer_id Int?
+  manufacturer    Manufacturer? @relation(fields: [manufacturer_id], references: [id], onDelete: Cascade)
+  brand_id        Int?
+  brand           Brand?        @relation(fields: [brand_id], references: [id], onDelete: Cascade)
+  created_at      DateTime @default(now())
+
+  @@index([user_id])
+  @@index([manufacturer_id])
+  @@index([brand_id])
+}
